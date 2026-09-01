@@ -1,0 +1,41 @@
+<div class="col-md-3">
+  <%= render "shared/sidebar", user: current_user, book: Book.new %>
+</div>
+
+<div class="col-md-8 offset-md-1">
+  <h1>Groups</h1>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>グループ名</th>
+        <th>紹介文</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @groups.each do |group| %>
+        <tr>
+          <td>
+            <% if group.image.attached? %>
+              <%= image_tag group.image.variant(resize_to_limit: [200, 200]) %>
+            <% else %>
+              <%= image_tag "no_image.jpg", size: "200x200" %>
+            <% end %>
+          </td>
+
+          <td><%= link_to group.name, group_path(group) %></td>
+
+          <td><%= group.description %></td>
+
+          <td>
+            <% if group.owner == current_user %>
+              <%= link_to "Edit", edit_group_path(group), class: "btn btn-primary" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,24 @@
+<div class = "text-center">
+  <div class = "d-inline-block text-start">
+    <h1>Editing Group</h1>
+
+    <%= form_with model: @group do |f| %>
+      <div>
+        <%= f.label :name, "グループ名" %><br>
+        <%= f.text_field :name %>
+      </div>
+
+      <div>
+        <%= f.label :description, "紹介文" %><br>
+        <%= f.text_area :description %>
+      </div>
+
+      <div>
+        <%= f.label :image, "グループ画像" %><br>
+        <%= f.file_field :image %>
+      </div>
+
+      <%= f.submit "Update Group", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

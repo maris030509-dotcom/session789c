@@ -21,4 +21,10 @@ class Book < ApplicationRecord
       Book.where('title LIKE ?', '%' + content + '%')
     end
   end
+  
+private
+  def book_params
+    params.require(:book).permit(:title, :body)
+  end
+
 end

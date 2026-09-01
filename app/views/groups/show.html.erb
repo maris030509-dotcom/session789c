@@ -1,0 +1,54 @@
+<div class="col-md-3">
+  <%= render "shared/sidebar", user: current_user, book: Book.new %>
+</div>
+
+<div class="col-md-8 offset-md-1">
+  <h1>Group Detail</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>グループ名</th>
+        <th>紹介文</th>
+        <th>メンバー</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+          <% if @group.image.attached? %>
+            <%= image_tag @group.image.variant(resize_to_fill: [150, 150]), class: "img-fluid w-25" %>
+          <% else %>
+            <%= image_tag "no_image.jpg" %>
+          <% end %>
+        </td>
+        <td><%= @group.name %></td>
+        <td><%= @group.description %></td>
+                <td><% @group.users.each do |user| %>
+              <%= user.name %></p>
+            <% end %>
+        </td>
+        <td>
+          <% if current_user.groups.include?(@group) %>
+            <%= button_to "Leave this group",
+                group_groupuser_path(@group, current_user.groupusers.find_by(group: @group)),
+                method: :delete %>
+          <% else %>
+            <%= button_to "Join this group",
+                group_groupusers_path(@group),
+                method: :post %>
+          <% end %>
+        </td>
+        <td>
+        <%= link_to "Notice an Event", contacts_new_path %>
+        </td>
+
+
+      </tr>
+    </tbody>
+  </table>
+</div>

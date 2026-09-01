@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_08_21_053909) do
+ActiveRecord::Schema[8.0].define(version: 2026_09_01_073455) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -55,11 +55,38 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_21_053909) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "contacts", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.text "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "favorites", force: :cascade do |t|
     t.integer "user_id"
     t.integer "book_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.integer "owner_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_groups_on_owner_id"
+  end
+
+  create_table "groupusers", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_groupusers_on_group_id"
+    t.index ["user_id", "group_id"], name: "index_groupusers_on_user_id_and_group_id", unique: true
+    t.index ["user_id"], name: "index_groupusers_on_user_id"
   end
 
   create_table "relationships", force: :cascade do |t|
@@ -90,5 +117,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_08_21_053909) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "groups", "users", column: "owner_id"
+  add_foreign_key "groupusers", "groups"
+  add_foreign_key "groupusers", "users"
   add_foreign_key "sessions", "users"
 end

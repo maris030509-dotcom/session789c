@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "contacts/new"
+  get "contacts/create"
   resources :users, only: [:new, :create, :index, :show, :edit, :update] , path: 'users', path_names: { new: 'sign_up' } do
     resources :relationships, only: [:create, :destroy]
   	get "followings" => "relationships#followings", as: "followings"
@@ -15,6 +17,11 @@ Rails.application.routes.draw do
     resources :book_comments, only: [:create, :destroy]
   end
 
+  resources :groups do
+    resources :groupusers, only: [:create, :destroy]
+  end 
+  
+  resources :contacts, only: [:new, :create]
     root to: "homes#top"
   get 'home/about' => 'homes#about'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
